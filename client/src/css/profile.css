@@ -1,0 +1,30 @@
+.profile{
+	max-width:200px; 
+	margin: auto;
+	opacity: 0.6;
+	background-color: white;
+	margin-top: 2vh;
+	height: 35vh;
+	border-radius: 8px;
+}
+.ava img{
+	width: 170px;
+	border-radius: 100px;
+}
+.ava{
+	margin: 15px;
+	padding-top:15px;
+}
+.name{
+	text-align: center;
+	font-weight: 600;
+	font-size: 30px;
+	margin-bottom: 3vh;
+}
+.settings{
+	text-align: center;
+}
+.setting_button{
+	margin-top: 2vh;
+	font-size: 27px;
+}

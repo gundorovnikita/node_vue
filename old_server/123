@@ -1,0 +1,215 @@
+const express = require('express')
+const jwt = require('jsonwebtoken')
+const uuid = require('uuid/v4')
+const session = require('express-session')
+const multer = require('multer');
+const path = require('path')
+const url = require('./app/urls.js')
+
+
+const views = require('./app/views')
+
+
+const fs = require('fs');
+
+
+
+const app = express()
+
+app.use('/image',express.static('uploads'));
+
+
+/*
+
+const storage = multer.diskStorage({
+	destination: function(req,file,cb){
+		cb(null,'./uploads/')
+	},
+	filename: function(req,file,cb){
+		cb(null,new Date().toISOString() + file.originalname)
+	}
+})
+
+
+const upload = multer({ storage:storage })
+
+*/
+
+app.use(session({
+	secret:'secret',
+	name:'sid',
+	resave:false,
+	saveUninitialized:false,
+	cookie:{
+		sameSite:true,
+	}
+}))
+
+app.use(express.json())
+
+
+
+/*
+
+const users=[
+	{id:1,name:'Alex',password:'123'},
+	{id:2,name:'Nick',password:'123'},
+	{id:3,name:'Piter',password:'123'},
+	{id:4,name:'w',password:'w',image:'/1.jpg'}
+]
+
+
+
+
+let refreshTokens=[]
+*/
+
+app.use(express.urlencoded({ extended: true }))
+
+
+/*
+const verify = function(req,res,next){
+	const token = req.session.authToken;
+	if(!token){ 
+		return res.status(401).send('Acces denied')
+	}
+
+	try{
+		const verified = jwt.verify(token, 'process.env.accesTOKEN_SECRET')
+		req.user = verified
+		next()
+	}catch(err){
+		res.status(400).send('invalid Token')
+	}
+}
+
+/*
+app.post('/api/login',(req,res)=>{
+	const {name,password} = req.body
+	if (name && password){
+		const user = users.find(user=>user.name===name && user.password===password)
+		if (user){
+			const accesToken = jwt.sign({id:user.id,type:'acces'}, 'process.env.accesTOKEN_SECRET', { expiresIn: '1h' })
+			
+
+			refreshTokens = refreshTokens.filter(token=>token.id!==user.id)
+			
+
+			const refreshToken = jwt.sign({id:user.id,type:'refresh'}, 'process.env.refreshTOKEN_SECRET')
+			refreshTokens.push({token:refreshToken,id:user.id})
+			//
+			req.session.authToken = accesToken
+			req.session.refreshToken = refreshToken
+			res.send({accesToken,refreshToken})
+		}else{
+			res.status(400).send('incorrect name or password')
+		}
+	}else{
+		res.status(400).send('invalid value')
+	}
+})
+*/
+
+
+//app.post('/api/login',views.login)
+
+
+/*
+app.post('/api/register',(req,res)=>{
+	const {name,password} = req.body
+	if (name&&password){
+		const exist = users.some(user=>user.name===name)
+		if(!exist){
+			const user={
+				id:users.length+1,
+				name,
+				password
+			}
+			users.push(user)
+			return res.send(user)
+		}else{
+			return res.status(404).json("name exist")
+		}
+	} else{
+		return res.status(404).json("invalid value")
+	}
+
+})
+
+app.delete('/api/logout',(req,res)=>{
+	refreshTokens = refreshTokens.filter(token=>token.token!==req.session.refreshToken)
+	req.session.authToken = ''
+
+	res.sendStatus(204)
+})
+
+app.post('/api/token',(req,res)=>{
+	const refreshToken = req.session.refreshToken
+	if(refreshToken == null){
+		res.status(400).send('error token')
+	}
+	const token = refreshTokens.find(token=>token.token===refreshToken)
+	if(token){
+		const accesToken = jwt.sign({id:token.id,type:'acces'}, 'process.env.accesTOKEN_SECRET', { expiresIn: '15s' })
+		res.json(accesToken)
+	}else{
+		res.status(400).send('invalid token')
+	}
+})
+
+app.post('/api/users/image',views.verify,upload.single('file'),(req,res)=>{
+	const authUser = users.find(user=>user.id===req.user.id)
+	if(authUser.image && authUser.image!=='/1.jpg'){
+		fs.unlink(path.join(__dirname,'..' ,'uploads',authUser.image), function(err) {
+  
+  			console.log('error image')
+
+  		})
+	}
+	
+	authUser.image=req.file.filename
+	res.send(true)
+})
+
+
+app.get('/api/menu',views.verify,(req,res)=>{
+	const authUser = users.find(user=>user.id===req.user.id)
+	res.json(authUser)
+})
+
+
+
+app.get('/api/users',(req,res)=>{
+	res.json({users,refreshTokens})
+})
+
+
+*/
+/*
+app.get('/api/verify',views.verify,(req,res)=>{
+	res.send(true)
+})
+*/
+
+
+app.use(url)
+
+
+const server = app.listen(3000,()=>{
+	console.log('server has been started')
+})
+
+
+
+
+//chat
+
+
+
+const io = require('socket.io')(server)
+
+io.on('connection', socket=>{
+	socket.on('send-chat-message',message=>{
+		socket.broadcast.emit('chat-message',message)
+	})
+})

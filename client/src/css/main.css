@@ -1,0 +1,29 @@
+body{
+	margin: 0;
+	background: rgb(196,172,183);
+	background: linear-gradient(90deg, rgba(196,172,183,1) 0%, rgba(140,168,201,1) 100%);
+}
+
+.header{
+	display: grid;
+	grid-template-columns:1fr 1fr;
+	max-width: 200px;
+	margin: auto;
+	background-color:rgba(0,0,0,.2);
+	text-align: center;
+	border-radius: 0px 0px 15px 15px;
+}
+
+.header_button{
+	text-decoration: none;
+	color:white;
+	font-size: 30px;
+	font-weight: 700;
+}
+.header_button:hover{
+	color: #bccee3;
+}
+.content{
+	text-align: center;
+	margin: 0 auto;
+}
