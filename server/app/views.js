@@ -10,10 +10,10 @@ const login = (req,res)=>{
 		const user = models.users.find(user=>user.name===name && user.password===password)
 		if (user){
 			const accesToken = jwt.sign({id:user.id,type:'acces'}, 'process.env.accesTOKEN_SECRET', { expiresIn: '1h' })
-			
+
 
 			models.refreshTokens = models.refreshTokens.filter(token=>token.id!==user.id)
-			
+
 
 			const refreshToken = jwt.sign({id:user.id,type:'refresh'}, 'process.env.refreshTOKEN_SECRET')
 			models.refreshTokens.push({token:refreshToken,id:user.id})
@@ -46,12 +46,12 @@ const uploadImage = (req,res)=>{
 	const authUser = models.users.find(user=>user.id===req.user.id)
 	if(authUser.image && authUser.image!=='/1.jpg'){
 		fs.unlink(path.join(__dirname,'..','..' ,'uploads',authUser.image), function(err) {
-  
+
   			console.log('error image')
 
   		})
 	}
-	
+
 	authUser.image=req.file.filename
 	res.send(true)
 }
@@ -67,6 +67,7 @@ const register = (req,res)=>{
 				id:models.users.length+1,
 				name,
 				password,
+				rooms:[],
 				image:'/1.jpg'
 			}
 			models.users.push(user)
@@ -105,7 +106,7 @@ const token = (req,res)=>{
 
 const verify = function(req,res,next){
 	const token = req.session.authToken;
-	if(!token){ 
+	if(!token){
 		return res.status(401).send('Acces denied')
 	}
 
@@ -118,6 +119,11 @@ const verify = function(req,res,next){
 	}
 }
 
+const messages = function(req,res){
+	const messagesList = models.messages
+	res.json(messagesList)
+}
+
 module.exports = {
-	login,menu,users,uploadImage,register,logout,token,verify
+	login,menu,users,uploadImage,register,logout,token,verify,messages
 }

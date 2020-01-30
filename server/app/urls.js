@@ -33,6 +33,7 @@ app.delete('/api/logout',views.logout)
 app.post('/api/token',views.token)
 
 
+app.get('/api/messages',views.messages)
 
 
 app.get('/api/verify',views.verify,(req,res)=>{

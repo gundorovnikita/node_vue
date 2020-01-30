@@ -1,4 +1,5 @@
 const app = require('./config')
+const {messages} = require('./app/models.js')
 
 const server = app.listen(3000,()=>{
 	console.log('server has been started on 3000')
@@ -11,14 +12,15 @@ const io = require('socket.io')(server)
 io.on('connection', socket=>{
 	socket.on('user-connect',(room)=>{
 		socket.join(room)
-
+		console.log(room)
 	})
 	socket.on('user-disconnect',(room)=>{
 		socket.leave(room)
-
+		console.log(room)
 	})
 	socket.on('send-chat-message',(message,room)=>{
-
-		socket.to(room).broadcast.emit('chat-message',message)
+		console.log(room)
+		messages.push({message:message,room:room})
+		socket.to(room).broadcast.emit('chatMessage',message)
 	})
 })
