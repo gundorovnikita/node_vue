@@ -17,6 +17,9 @@ export default {
     components:{
         RoomList,ChatField
     },
+    mounted(){
+      localStorage.removeItem('messages');
+    }
 }
 </script>
 

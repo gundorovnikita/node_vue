@@ -120,7 +120,7 @@ const verify = function(req,res,next){
 }
 
 const messages = function(req,res){
-	const messagesList = models.messages
+	const messagesList = models.messages.filter(e=>e.room===req.params.room)
 	res.json(messagesList)
 }
 

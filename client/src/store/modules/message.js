@@ -2,13 +2,37 @@ export default{
   actions:{
     async showMessages(ctx,room){
       if(localStorage.messages){
-        const data = JSON.parse(localStorage.getItem('messages'))
-        const value = data.filter(e=>e.room==room)
 
-        ctx.commit('updateAllMessages',value)
+        const data = await JSON.parse(localStorage.getItem('messages'))
+        const value = data.filter(e=>e.room===room)
+        if(value){
+          ctx.commit('updateAllMessages',value)
+        }else{
+          const data = await fetch(`/api/messages/${room}`)
+          const json = await data.json()
+
+          let value = JSON.parse(localStorage.getItem('messages'))
+          if(value.length){
+            alert('value')
+            value=[...value,...json]
+            localStorage.setItem('messages',JSON.stringify(value))
+            ctx.commit('updateAllMessages',json)
+          }
+
+        }
+
       }else{
-        ctx.commit('updateAllMessages',[])
+        const data = await fetch(`/api/messages/${room}`)
+        const json = await data.json()
+        if(json.length){
+          localStorage.setItem('messages',JSON.stringify(json))
+          ctx.commit('updateAllMessages',json)
+        }
+
+
+
       }
+
     },
     async addMessage(ctx,data){
       let value = JSON.parse(localStorage.getItem('messages')) || []
