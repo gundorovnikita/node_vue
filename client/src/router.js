@@ -15,7 +15,7 @@ const middleware = (to, from, next) => {
 				next('/login')
 			}
 		}).catch(()=>next('/login'))
-	
+
 }
 
 
@@ -52,7 +52,11 @@ export default new Router({
 			meta: {layout:'main'},
 			component: ()=>import('./views/menu.vue'),
 			beforeEnter: middleware
-		
+
+		},
+		{
+			path: '*',
+			redirect: '/i'
 		}
 	]
 })

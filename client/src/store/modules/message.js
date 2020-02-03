@@ -2,7 +2,6 @@ export default{
   actions:{
     async showMessages(ctx,room){
       if(localStorage.messages){
-
         const data = await JSON.parse(localStorage.getItem('messages'))
         const value = data.filter(e=>e.room===room)
         if(value){
@@ -18,7 +17,6 @@ export default{
             localStorage.setItem('messages',JSON.stringify(value))
             ctx.commit('updateAllMessages',json)
           }
-
         }
 
       }else{
@@ -28,11 +26,7 @@ export default{
           localStorage.setItem('messages',JSON.stringify(json))
           ctx.commit('updateAllMessages',json)
         }
-
-
-
       }
-
     },
     async addMessage(ctx,data){
       let value = JSON.parse(localStorage.getItem('messages')) || []

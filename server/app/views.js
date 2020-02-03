@@ -37,9 +37,12 @@ const menu = (req,res)=>{
 
 
 const users = (req,res)=>{
-	let usersList = models.users
-	let tokenList = models.refreshTokens
-	res.json({usersList,tokenList})
+	let usersList = models.users.filter(e=>{
+		const regex = new RegExp(`^${req.query.search}`,'gi')
+		return e.name.match(regex)
+	})
+	console.log(req.query.search)
+	res.json(usersList)
 }
 
 const uploadImage = (req,res)=>{

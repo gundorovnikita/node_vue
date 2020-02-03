@@ -2,11 +2,9 @@
 	<div class="rooms">
 		<div class="name_room">
 		</div>
-      <input type="text" class="isearch">
+      <searchChat/>
       <div  class="list_room" >
-
         <div  class="detail_room" v-for="user in users" :key="user.id" @click="connectChat(user.id)">
-
           <img  :src=" 'image/'+user.image" class="ava_room" alt="">
           <div class="name_room">{{user.name}}</div>
         </div>
@@ -14,8 +12,11 @@
     </div>
 </template>
 <script>
-
+import searchChat from './RoomList/searchChat.vue'
 	export default{
+		components:{
+			searchChat
+		},
 		data(){
 			return{
 
