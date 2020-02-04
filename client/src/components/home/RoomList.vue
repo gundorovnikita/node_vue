@@ -7,6 +7,7 @@
         <div  class="detail_room" v-for="user in users" :key="user.id" @click="connectChat(user.id)">
           <img  :src=" 'image/'+user.image" class="ava_room" alt="">
           <div class="name_room">{{user.name}}</div>
+					<button type="button" @click="deleteFriend(user.id)">delete</button>
         </div>
       </div>
     </div>
@@ -25,7 +26,7 @@ import searchChat from './RoomList/searchChat.vue'
 		},
 		computed:{
 			users(){
-				return this.$store.getters.getAuth.rooms
+				return this.$store.getters.listUser
 			}
 		},
     methods:{
@@ -43,9 +44,19 @@ import searchChat from './RoomList/searchChat.vue'
 					this.$socket.emit('user-connect',this.connected);
 					this.$store.dispatch('showMessages',this.connected)
 			},
+			deleteFriend:async function(id){
+				await fetch(`/api/actionfriend/${id}`,{
+					method:'POST',
+					headers: {
+						'Content-Type': 'application/json;charset=utf-8'
+					},
+					body:JSON.stringify({beh:2})
+				})
+				this.$store.dispatch('fetchList')
+			}
     },
 		mounted(){
-			return this.$store.dispatch('fetchAuth')
+			return this.$store.dispatch('fetchList')
 		}
 
 	}
