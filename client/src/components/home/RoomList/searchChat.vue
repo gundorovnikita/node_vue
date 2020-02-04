@@ -4,7 +4,7 @@
     <form class="searchForm" v-on:submit.prevent="submitSearch">
       <input type="text" class="isearch" v-model="find" v-on:enter="submitSearch">
     </form>
-    <div class="ready" v-for="(user,id) of users" v-bind:key="id">
+    <div class="findList" v-for="(user,id) of users" v-bind:key="id">
       {{user.name}}
     </div>
   </div>
