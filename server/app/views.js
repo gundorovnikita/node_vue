@@ -35,8 +35,19 @@ const menu = (req,res)=>{
 	res.json(authUser)
 }
 
+const getUsers = (req,res)=>{
+	const userList = req.query.users
+	res.json(userList)
+}
 
-const users = (req,res)=>{
+const addFriend = (req,res)=>{
+	const mainUser = models.users.find(user=>user.id===req.user.id)
+	const addUser = req.body.id
+	res.json({mainUser,addUser})
+}
+
+
+const findUsers = (req,res)=>{
 	let usersList = models.users.filter(e=>{
 		const regex = new RegExp(`^${req.query.search}`,'gi')
 		return e.name.match(regex)
@@ -128,5 +139,5 @@ const messages = function(req,res){
 }
 
 module.exports = {
-	login,menu,users,uploadImage,register,logout,token,verify,messages
+	login,menu,getUsers,findUsers,uploadImage,register,logout,token,verify,messages,addFriend
 }

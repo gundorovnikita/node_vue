@@ -1,6 +1,5 @@
 <template>
   <div class="search">
-    {{find}}
     <form class="searchForm" v-on:submit.prevent="submitSearch">
       <input type="text" class="isearch" v-model="find" v-on:enter="submitSearch">
     </form>
@@ -28,7 +27,7 @@ export default{
   },
   methods:{
     submitSearch:async function(){
-      const data = await fetch(`/api/users?search=${this.find}`)
+      const data = await fetch(`/api/findusers?search=${this.find}`)
       const json = await data.json()
       this.users = json
     }
@@ -37,7 +36,7 @@ export default{
 }
 </script>
 <style media="screen">
-  .ready{
+  .findList{
     color: white;
   }
 </style>

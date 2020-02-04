@@ -14,8 +14,12 @@ app.post('/api/login',views.login)
 
 app.get('/api/menu',views.verify,views.menu)
 
+app.get('/api/getusers',views.verify,views.getUsers)
 
-app.get('/api/users',views.users)
+app.post('/api/addfriend/:id',views.verify,views.addFriend)
+
+
+app.get('/api/findusers',views.findUsers)
 
 
 
