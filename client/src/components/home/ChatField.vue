@@ -25,24 +25,27 @@ export default{
 	},
 	sockets:{
 		chatMessage:function(data){
-			this.$store.dispatch('addMessage',data,this.$route.query.peers)
+			this.$store.dispatch('addMessage',{message:data,room:this.$route.query.peers})
 		}
 	},
 	methods:{
 		sendMessage(e){
 			e.preventDefault();
-			this.$socket.emit('send-chat-message', this.message,this.$route.query.peers);
+			this.$socket.emit('send-chat-message', this.message,this.$route.query.peers)
+			this.$socket.emit('send-message',this.message,this.$store.getters.getSendUser)
 			this.$store.dispatch('addMessage', {message:this.message,room:this.$route.query.peers})
       this.message = ''
 		}
 	},
 	computed:{
 		messages(){
-			return this.$store.getters.getMessages
+			return this.$store.getters.getMessages(this.$route.query.peers)
 		}
 	},
 	mounted(){
 		this.$store.dispatch('showMessages',this.$route.query.peers)
+		this.$socket.emit('user-connect',this.$route.query.peers);
+
 	}
 }
 </script>

@@ -20,6 +20,9 @@ export default{
       const dataList = await fetch(`/api/getusers?${stringify(sender)}`)
       const list = await dataList.json()
       ctx.commit('updateListUser',list)
+    },
+    async idSendUser(ctx,id){
+      ctx.commit('updateIdSendUser',id)
     }
   },
   mutations:{
@@ -31,16 +34,21 @@ export default{
     },
     updateListUser(state,users){
       state.listUser=users
+    },
+    updateIdSendUser(state,user){
+      state.sendUser=user
     }
   },
   state:{
     authUser:{},
     findUser:[],
     listUser:[],
+    sendUser:''
   },
   getters:{
     getAuth:(state)=>{return state.authUser},
     getFind:(state)=>{return state.findUser},
-    listUser:(state)=>{return state.listUser}
+    listUser:(state)=>{return state.listUser},
+    getSendUser:(state)=>{return state.sendUser}
   }
 }

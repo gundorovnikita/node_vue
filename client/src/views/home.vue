@@ -4,8 +4,7 @@
     <RoomList/>
 
     <ChatField/>
-
-
+{{$store.getters.getAuth.id}}
   </div>
 </template>
 
@@ -17,8 +16,9 @@ export default {
     components:{
         RoomList,ChatField
     },
-    mounted(){
-      localStorage.removeItem('messages');
+    updated(){
+      alert(this.$store.getters.getAuth.id)
+			this.$socket.emit('user-connect',this.$store.getters.getAuth.id);
     }
 }
 </script>

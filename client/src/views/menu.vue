@@ -31,7 +31,7 @@ export default{
 			return this.$store.getters.getAuth
 		}
 	},
-	async mounted(){
+	mounted(){
 		this.$store.dispatch('fetchAuth')
 	},
 	methods:{

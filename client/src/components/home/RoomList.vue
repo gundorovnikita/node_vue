@@ -18,6 +18,11 @@ import searchChat from './RoomList/searchChat.vue'
 		components:{
 			searchChat
 		},
+		sockets:{
+      getMessage:function(data){
+        alert(data)
+      }
+    },
 		data(){
 			return{
 
@@ -31,15 +36,13 @@ import searchChat from './RoomList/searchChat.vue'
 		},
     methods:{
 			connectChat(id){
+					this.$store.dispatch('idSendUser',id)
 					this.$socket.emit('user-disconnect',this.connected);
 
 					const authId = this.$store.getters.getAuth.id
 
-					if(authId<id){
-						this.connected= `${authId}-${id}`
-					}else{
-						this.connected= `${id}-${authId}`
-					}
+					this.connected= `${Math.min(authId,id)}-${Math.max(authId,id)}`
+
 					this.$router.push({query:{peers:this.connected}})
 					this.$socket.emit('user-connect',this.connected);
 					this.$store.dispatch('showMessages',this.connected)
@@ -56,6 +59,7 @@ import searchChat from './RoomList/searchChat.vue'
 			}
     },
 		mounted(){
+			
 			return this.$store.dispatch('fetchList')
 		}
 

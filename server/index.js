@@ -12,15 +12,15 @@ const io = require('socket.io')(server)
 io.on('connection', socket=>{
 	socket.on('user-connect',(room)=>{
 		socket.join(room)
-		console.log(room)
 	})
 	socket.on('user-disconnect',(room)=>{
 		socket.leave(room)
-		console.log(room)
 	})
 	socket.on('send-chat-message',(message,room)=>{
-		console.log(room)
 		messages.push({message:message,room:room})
 		socket.to(room).broadcast.emit('chatMessage',message)
+	})
+	socket.on('send-message',(message,user)=>{
+		socket.to(user).broadcast.emit('getMessage',message)
 	})
 })
