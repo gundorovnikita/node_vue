@@ -1,28 +1,41 @@
 <template>
 
 <div class="chat">
-    <RoomList/>
 
-    <ChatField/>
-{{$store.getters.getAuth.id}}
-  </div>
+<div id="main">
+
+<LeftMenu/>
+
+<RightMenu/>
+
+
+
+</div>
+</div>
+
 </template>
 
 <script>
-import RoomList from '@/components/home/RoomList'
-import ChatField from '@/components/home/ChatField'
+import LeftMenu from '@/components/home/LeftMenu'
+import RightMenu from '@/components/home/RightMenu'
 
 export default {
     components:{
-        RoomList,ChatField
+        LeftMenu,RightMenu
     },
     updated(){
-      alert(this.$store.getters.getAuth.id)
 			this.$socket.emit('user-connect',this.$store.getters.getAuth.id);
     }
 }
 </script>
 
 <style scoped>
-@import '../css/home.css'
+@import '../css/main.css';
+@import '../css/roomlist.css';
+@import '../css/roominfo.css';
+@import '../css/menu.css';
+@import '../css/form.css';
+@import '../css/chatarea.css';
+@import '../css/adaptive.css';
+@import '../css/settings.css';
 </style>

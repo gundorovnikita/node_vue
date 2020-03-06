@@ -1,0 +1,69 @@
+.room_list{
+  overflow: auto;
+  height: 100%;
+}
+
+.room_main_element{
+  width:100%;
+}
+.room_main_element:hover{
+  background-color: #444446;
+}
+.room_main_element_active{
+  width:100%;
+  background-color: #555556;
+}
+
+.room_element{
+  padding: 6px;
+  margin-left: 5px;
+  display: grid;
+  grid-template-columns: 50px 1fr;
+
+}
+.room_ava img{
+  width: 50px;
+  height: 50px;
+  border-radius: 100px;
+}
+.room_text_block{
+  position: relative;
+}
+.room_detail_name{
+  color: #D4D4D4;
+  font-weight: bold;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
+.room_detail_preview{
+  position: absolute;
+  top: 30px;
+  left: 5px;
+  color: #777777;
+}
+.room_detail_time{
+  position: absolute;
+  top: 5px;
+  right: 25px;
+  color: #717171;
+}
+
+.room_detail_delete{
+  position: absolute;
+  top: 5px;
+  right: 0px;
+  color: #717171;
+
+}
+
+.cross{
+  color: #747474;
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+}
+
+.simplebar-scrollbar::before {
+  background-color: #AAAAAA;
+}
